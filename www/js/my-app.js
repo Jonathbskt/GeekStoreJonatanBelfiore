@@ -21,9 +21,9 @@ var app = new Framework7({
         url: 'index.html',
       },
       {
-        name: 'about',
-        path: '/about/',
-        url: 'about.html',
+        name: 'home',
+        path: '/home/',
+        url: 'home.html',
       },
       
     ]
@@ -34,22 +34,53 @@ var mainView = app.views.create('.view-main');
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
+
     console.log("Device is ready!");
+
+
 });
 
-// Option 1. Using one 'page:init' handler for all pages
+// Option 1. Using one 'page:init' handler for all pages INDEX !!!!
 $$(document).on('page:init','.page[data-name="index"]', function (e) {
     // Do something here when page loaded and initialized
     console.log(e);
-    $$('#btnIndex').on('click', function(){
-      app.views.main.router.navigate("/about/");
+
+    var email = $$("#emailRegistration").val();
+    var password = $$("#passwordRegistration").val();
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+
+    .then((user) => {
+    // Signed in
+    // ...
+    alert("todo en orden");
     })
+
+    .catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    if (errorCode == 'auth/weak-password') {
+
+    alert('Clave muy débil.');
+
+    } else {
+
+    alert(errorMessage);
+
+    }
+    console.log(error);
+
+    });
+
+    alert("q paso?");
 })
 
+
 // Option 2. Using live 'page:init' event handlers for each page
-$$(document).on('page:init', '.page[data-name="about"]', function (e) {
+$$(document).on('page:init', '.page[data-name="home"]', function (e) {
     // Do something here when page with data-name="about" attribute loaded and initialized
     console.log(e);
 
     
 })
+

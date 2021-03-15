@@ -10,7 +10,7 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">-->
 
     <!-- Required meta tags-->
     <meta charset="utf-8">
@@ -84,7 +84,7 @@
                                                     <div class="item-inner">
                                                         <div class="item-title item-label">Email</div>
                                                         <div class="item-input-wrap">
-                                                            <input type="text" name="username" placeholder="Tu Email" />
+                                                            <input id="emailRegistration" type="text" name="username" placeholder="Tu Email" />
                                                         </div>
                                                     </div>
                                                 </li>
@@ -92,7 +92,7 @@
                                                     <div class="item-inner">
                                                         <div class="item-title item-label">Contraseña</div>
                                                         <div class="item-input-wrap">
-                                                            <input type="password" name="password" placeholder="Tu contraseña" />
+                                                            <input id="passwordRegistration" type="password" name="password" placeholder="Tu contraseña" />
                                                         </div>
                                                     </div>
                                                 </li>
@@ -137,6 +137,26 @@
         </div>
     </div>
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+    
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDYaeLLHoJlqDCYdf65CZ0PsppnL5kWJ38",
+            authDomain: "geekstore-19b2f.firebaseapp.com",
+            projectId: "geekstore-19b2f",
+            storageBucket: "geekstore-19b2f.appspot.com",
+            messagingSenderId: "749123384592",
+            appId: "1:749123384592:web:f66d571cc0663beccce195"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="lib/framework7/framework7-bundle.min.js"></script>
