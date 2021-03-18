@@ -16,71 +16,112 @@ var app = new Framework7({
     // Add default routes
     routes: [
       {
-        name: 'index',
-        path: '/index/',
-        url: 'index.html',
+        path: '/about/',
+        url: 'about.html',
       },
       {
-        name: 'home',
         path: '/home/',
         url: 'home.html',
       },
-      
     ]
     // ... other parameters
   });
 
 var mainView = app.views.create('.view-main');
+var datosGlobal = "";
+
+var db = firebase.firestore();
+
+
+
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-
     console.log("Device is ready!");
 
 
 });
 
-// Option 1. Using one 'page:init' handler for all pages INDEX !!!!
-$$(document).on('page:init','.page[data-name="index"]', function (e) {
+// Option 1. Using one 'page:init' handler for all pages
+$$(document).on('page:init', function (e) {
     // Do something here when page loaded and initialized
     console.log(e);
-
-    var email = $$("#emailRegistration").val();
-    var password = $$("#passwordRegistration").val();
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-
-    .then((user) => {
-    // Signed in
-    // ...
-    alert("todo en orden");
-    })
-
-    .catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    if (errorCode == 'auth/weak-password') {
-
-    alert('Clave muy débil.');
-
-    } else {
-
-    alert(errorMessage);
-
-    }
-    console.log(error);
-
-    });
-
-    alert("q paso?");
 })
-
 
 // Option 2. Using live 'page:init' event handlers for each page
-$$(document).on('page:init', '.page[data-name="home"]', function (e) {
+$$(document).on('page:init', '.page[data-name="about"]', function (e) {
     // Do something here when page with data-name="about" attribute loaded and initialized
     console.log(e);
-
     
 })
+
+// Option 2. Using live 'page:init' event handlers for each page
+$$(document).on('page:init', '.page[data-name="index"]', function (e) {
+    // Do something here when page with data-name="about" attribute loaded and initialized
+    console.log(e);
+    
+    $$('#btnLogin').on('click', fnLogin);
+    $$('#btnIndex').on('click', fnRegistro);
+    
+})
+
+
+function fnRegistro() {
+    em = $$('#emailRegistration').val();
+    pa = $$('#passwordRegistration').val();
+
+
+    firebase.auth().createUserWithEmailAndPassword(em, pa)
+        .then( function() {
+          alert("registro ok");
+          app.popup.close(".popup-registro");
+          app.views.main.router.navigate("/home/");
+            
+        })
+
+        .catch(function(error) {          
+        // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message; 
+            if (errorCode == 'auth/weak-password') { 
+                alert('Clave muy débil.');
+            } else {
+                alert(errorCode + "|" + errorMessage);
+            }
+            console.log(error);
+        });
+      
+        
+}
+
+
+function fnLogin() {
+    email = $$('#emailLogin').val();
+    password = $$('#passwordLogin').val();
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+
+      .then((user) => {
+        app.views.main.router.navigate("/home/");
+        
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == 'auth/user-not-found') { 
+                alert('Clave o contraseña incorrecta');
+            } else {
+                (errorCode == 'auth/invalid-email')
+                alert("Por favor escriba bien su Email");
+            }
+            conso
+        alert(errorCode);
+      });
+
+}
+
+
+
+
+
 
